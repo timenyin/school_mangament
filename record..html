@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Records</title>
+  <link 
+    rel="stylesheet" 
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+  >
+  <link rel="stylesheet" href="school.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button 
+          type="button" class="navbar-toggle collapsed" 
+          data-toggle="collapse" data-target="#nav"
+        >
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="home.html">Student Portal</a>
+      </div>
+      <div id="nav" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-center">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="index.html">Register</a></li>
+          <li class="active"><a href="records.html">Records</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container" style="padding-top:70px;">
+
+    <!-- Move “Find Your Record” search bar here -->
+    <div class="search-bar">
+      <input id="searchMat" type="text" placeholder="Enter Mat No.">
+      <button id="btnSearch">Search</button>
+    </div>
+
+    <h2>Student Records</h2>
+    <div class="table-responsive">
+      <table class="student-table table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>S/N</th>
+            <th>Name</th>
+            <th>Mat No.</th>
+            <th>Faculty</th>
+            <th>Dept.</th>
+            <th>Gender</th>
+            <th>Level</th>   <!-- replaced DOB with Level -->
+            <th>Skills</th>
+          </tr>
+        </thead>
+        <tbody id="recordsBody"></tbody>
+      </table>
+    </div>
+
+    <p class="no-records">
+      Can't find your name? <a href="index.html">Register here</a>
+    </p>
+  </main>
+
+  <script>
+    // Populate and filter table on load & search
+    function renderTable(filter = '') {
+      const arr = JSON.parse(localStorage.getItem('students')||'[]');
+      const tbody = document.getElementById('recordsBody');
+      tbody.innerHTML = '';
+      arr.forEach((s,i) => {
+        if(filter && !s.matno.includes(filter)) return;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i+1}</td>
+          <td>${s.fullname}</td>
+          <td>${s.matno}</td>
+          <td>${s.faculty}</td>
+          <td>${s.department}</td>
+          <td>${s.email}</td>
+          <td>${s.level}</td>
+          <td>—</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.getElementById('btnSearch').addEventListener('click', function(){
+      const q = document.getElementById('searchMat').value.trim();
+      renderTable(q);
+    });
+
+    // initial render (no filter)
+    document.addEventListener('DOMContentLoaded', () => renderTable());
+  </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

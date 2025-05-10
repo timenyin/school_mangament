@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Register New Student</title>
+  <link 
+    rel="stylesheet" 
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+  >
+  <link rel="stylesheet" href="school.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button 
+          type="button" class="navbar-toggle collapsed" 
+          data-toggle="collapse" data-target="#nav"
+        >
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="home.html">Student Portal</a>
+      </div>
+      <div id="nav" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-center">
+          <li><a href="home.html">Home</a></li>
+          <li class="active"><a href="index.html">Register</a></li>
+          <li><a href="records.html">Records</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container" style="padding-top:70px;">
+    <h2>Register New Student</h2>
+    <form id="studentForm">
+      <div class="form-group"><input type="text" id="fullname" class="form-control" placeholder="Full Name" required></div>
+      <div class="form-group"><input type="text" id="matno"    class="form-control" placeholder="Mat No."   required></div>
+      <div class="form-group"><input type="text" id="faculty"  class="form-control" placeholder="Faculty"   required></div>
+      <div class="form-group"><input type="text" id="dept"     class="form-control" placeholder="Department"required></div>
+      <div class="form-group"><input type="email" id="email"   class="form-control" placeholder="Email"     required></div>
+      <div class="form-group">
+        <select id="level" class="form-control" required>
+          <option value="">Class Level</option>
+          <option>100</option><option>200</option><option>300</option>
+          <option>400</option><option>500</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="reset"  class="btn btn-default">Cancel</button>
+    </form>
+  </main>
+
+  <script>
+    document.getElementById('studentForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const student = {
+        fullname:   document.getElementById('fullname').value,
+        matno:      document.getElementById('matno').value,
+        faculty:    document.getElementById('faculty').value,
+        department: document.getElementById('dept').value,
+        email:      document.getElementById('email').value,
+        level:      document.getElementById('level').value
+      };
+      const arr = JSON.parse(localStorage.getItem('students')||'[]');
+      arr.push(student);
+      localStorage.setItem('students', JSON.stringify(arr));
+      window.location.href = 'records.html';
+    });
+  </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
